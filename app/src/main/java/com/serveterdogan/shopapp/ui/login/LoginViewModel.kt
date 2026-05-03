@@ -1,0 +1,63 @@
+package com.serveterdogan.shopapp.ui.login
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.serveterdogan.shopapp.domain.model.LoginRequest
+import com.serveterdogan.shopapp.domain.repository.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val repository: AuthRepository
+) : ViewModel() {
+
+    private val _state = MutableStateFlow(LoginState())
+
+    val state: StateFlow<LoginState> = _state.asStateFlow()
+
+
+    fun onEmailChange(email : String){
+       _state.value = _state.value.copy(email = email)
+    }
+
+
+    fun onPasswordChange(password : String){
+        _state.value = _state.value.copy(password = password)
+    }
+
+
+    fun userLogin(){
+        viewModelScope.launch {
+            _state.value = _state.value.copy(isLoading = true , error = null)
+
+
+            val result = repository.login(
+                LoginRequest(
+                    email = _state.value.email,
+                    password =_state.value.password
+                )
+            )
+
+            result.onSuccess {
+                _state.value = _state.value.copy(
+                    isLoading = false,
+                    error = null,
+                    isSuccess = true
+                )
+            }
+
+            result.onFailure{
+                _state.value = _state.value.copy(
+                    isLoading = false,
+                    error = it.message
+                )
+            }
+        }
+    }
+
+}
