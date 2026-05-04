@@ -1,5 +1,6 @@
 package com.serveterdogan.shopapp.ui.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serveterdogan.shopapp.domain.model.LoginRequest
@@ -9,11 +10,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import com.serveterdogan.shopapp.data.local.TokenManager
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val repository: AuthRepository
+    private val repository: AuthRepository,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(LoginState())
@@ -44,6 +47,8 @@ class LoginViewModel @Inject constructor(
             )
 
             result.onSuccess {
+                tokenManager.saveToken(it) // succses ise tokını kaydet
+                Log.d("LOGIN","Giriş başarılı : $it")
                 _state.value = _state.value.copy(
                     isLoading = false,
                     error = null,
@@ -52,6 +57,7 @@ class LoginViewModel @Inject constructor(
             }
 
             result.onFailure{
+                Log.d("LOGIN","Giriş başarsız : $it")
                 _state.value = _state.value.copy(
                     isLoading = false,
                     error = it.message
