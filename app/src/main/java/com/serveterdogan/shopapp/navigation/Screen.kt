@@ -8,9 +8,10 @@ import androidx.compose.material.icons.filled.ShoppingBag
 import androidx.compose.material.icons.filled.Storefront
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class Screen(val route : String , val title : String , val icon : ImageVector) {
-    object Login : Screen("login_page","Login", Icons.Default.Login)
-    object Home : Screen("home_page","Home", Icons.Default.Storefront)
+sealed class Screen(val route : String , val title : String = "" , val icon : ImageVector? = null) {
+    object Login : Screen("login_page")
+    object Main : Screen("main_page")
+     object Home : Screen("home_page","Home", Icons.Default.Storefront)
     object Favorite : Screen("favorite_page","Favorite", Icons.Default.Favorite)
     object Cart : Screen("cart_page","Cart", Icons.Default.ShoppingBag)
     object Profile : Screen("profile_page","Profile", Icons.Default.Person)
