@@ -1,7 +1,8 @@
 package com.serveterdogan.shopapp.di
 
-import com.serveterdogan.shopapp.data.remote.AuthApiService
+import com.serveterdogan.shopapp.data.remote.service.AuthApiService
 import com.serveterdogan.shopapp.BuildConfig
+import com.serveterdogan.shopapp.data.remote.service.ProductApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,10 +41,12 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor { chain ->
-                val request = chain.request().newBuilder()
-                    .addHeader("x-api-key", BuildConfig.REQRES_API_KEY)
-                    .build()
-                chain.proceed(request)
+                val originalRequest = chain.request()
+                val requestBuilder = originalRequest.newBuilder()
+                    if(originalRequest.url.host.contains("reqres.in")){
+                        requestBuilder.addHeader("x-api-key", BuildConfig.REQRES_API_KEY)
+                    }
+                chain.proceed(requestBuilder.build())
             }
             .build()
     }
@@ -63,12 +66,39 @@ object NetworkModule {
             .build()
     }
 
+
+
+
+    @Provides
+    @Singleton
+    @AppQualifiers.DummyRetrofit
+    fun provideDummyRetrofit(
+        json: Json,
+        okHttpClient: OkHttpClient
+    )  : Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://dummyjson.com/")
+            .client(okHttpClient)
+            .addConverterFactory(
+                json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
+
     @Provides
     @Singleton
     fun provideAuthApiService(
         @AppQualifiers.ReqResRetrofit retrofit: Retrofit
     ) : AuthApiService{
      return  retrofit.create(AuthApiService::class.java)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideProductApiService(
+       @AppQualifiers.DummyRetrofit retrofit: Retrofit
+    ): ProductApiService{
+        return retrofit.create(ProductApiService::class.java)
     }
 
 
