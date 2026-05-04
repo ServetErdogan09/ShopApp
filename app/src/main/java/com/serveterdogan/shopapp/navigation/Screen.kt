@@ -10,6 +10,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class Screen(val route : String , val title : String = "" , val icon : ImageVector? = null) {
     object Login : Screen("login_page")
+
+    object Register : Screen("register_page")
     object Main : Screen("main_page")
      object Home : Screen("home_page","Home", Icons.Default.Storefront)
     object Favorite : Screen("favorite_page","Favorite", Icons.Default.Favorite)
