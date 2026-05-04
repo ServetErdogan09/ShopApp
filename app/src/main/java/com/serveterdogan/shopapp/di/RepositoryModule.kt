@@ -1,7 +1,9 @@
 package com.serveterdogan.shopapp.di
 
 import com.serveterdogan.shopapp.data.repository.AuthRepositoryImpl
+import com.serveterdogan.shopapp.data.repository.ProductRepositoryImpl
 import com.serveterdogan.shopapp.domain.repository.AuthRepository
+import com.serveterdogan.shopapp.domain.repository.ProductRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -19,6 +21,12 @@ abstract class RepositoryModule {
     abstract fun provideRepositoryImpl(
         repositoryImpl: AuthRepositoryImpl
     ): AuthRepository
+
+    @Binds
+    @Singleton
+    abstract fun provideProductRepositoryImpl(
+        repositoryImpl: ProductRepositoryImpl
+    ): ProductRepository
 
 
 }
