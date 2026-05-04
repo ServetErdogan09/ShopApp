@@ -8,5 +8,6 @@ data class Product(
     val category: String,
     val thumbnail: String,
     val brand: String,
-    val rating: Double
+    val rating: Double,
+    val discountPercentage: Double,
 )
