@@ -30,11 +30,13 @@ fun BottomBar(
 
             NavigationBarItem(
                 icon = {
-                    Icon(
-                        imageVector = screen.icon,
-                        contentDescription = screen.title,
-                        tint = if (selected) LuxeColors.Primary else LuxeColors.Outline
-                    )
+                    screen.icon?.let {
+                        Icon(
+                            imageVector = it,
+                            contentDescription = screen.title,
+                            tint = if (selected) LuxeColors.Primary else LuxeColors.Outline
+                        )
+                    }
                 },
                 label = {
                     Text(

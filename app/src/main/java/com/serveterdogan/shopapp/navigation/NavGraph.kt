@@ -10,12 +10,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.serveterdogan.shopapp.data.local.TokenManager
-import com.serveterdogan.shopapp.ui.cart.CartScreen
-import com.serveterdogan.shopapp.ui.favorite.FavoriteScreen
-import com.serveterdogan.shopapp.ui.home.HomeScreen
 import com.serveterdogan.shopapp.ui.login.LoginScreen
 import com.serveterdogan.shopapp.ui.login.LoginViewModel
-import com.serveterdogan.shopapp.ui.profile.ProfileScreen
+import com.serveterdogan.shopapp.ui.register.RegisterScreen
+import com.serveterdogan.shopapp.ui.register.RegisterViewmodel
+
 
 @Composable
 fun NavGraph(
@@ -29,6 +28,8 @@ fun NavGraph(
        startDestination = if(token.value.isNullOrEmpty()) Screen.Login.route else Screen.Main.route,
         navController = navController
     ){
+
+
 
 
         composable(Screen.Login.route) {
@@ -50,8 +51,37 @@ fun NavGraph(
                 onEmailChange = viewModel::onEmailChange,
                 onPasswordChange = viewModel::onPasswordChange,
                 onLoginClick = viewModel::userLogin,
-                onRegisterClick = { /* Şimdilik boş */ },
-                onForgotPasswordClick = { /* Şimdilik boş */ },
+                onRegisterClick = {
+                    navController.navigate(Screen.Register.route)
+                },
+                onForgotPasswordClick = {
+                    // Şimdilik boş
+                },
+            )
+        }
+
+        composable(Screen.Register.route) {
+            val registerViewModel: RegisterViewmodel = hiltViewModel()
+            val state = registerViewModel.state.collectAsStateWithLifecycle()
+
+            // Kayıt başarılıysa ana sayfaya git
+            LaunchedEffect(state.value.isSuccess) {
+                if (state.value.isSuccess) {
+                    navController.navigate(Screen.Main.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
+                    }
+                }
+            }
+
+            RegisterScreen(
+                state = state.value,
+                onEmailChange = registerViewModel::onEmailChange,
+                onPasswordChange = registerViewModel::onPasswordChange,
+                onConfirmPasswordChange = registerViewModel::onConfirmPasswordChange,
+                onRegisterClick = registerViewModel::userRegister,
+                onBackToLoginClick = {
+                    navController.popBackStack()
+                }
             )
         }
 
