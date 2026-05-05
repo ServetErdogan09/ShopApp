@@ -84,4 +84,33 @@ class ProductViewModel @Inject constructor(
             }
         }
     }
+
+
+    fun getProductCategory(category : String){
+        if (category == "Tümü") {
+            _productState.value = _productState.value.copy(selectedCategory = "Tümü")
+            loadProducts()
+            return
+        }
+
+        viewModelScope.launch {
+            _productState.value = _productState.value.copy(isLoading = true , isError = null, selectedCategory = category)
+            val result = productRepository.getProductsByCategory(category)
+            
+            result.onSuccess {  products ->
+                _productState.value = _productState.value.copy(
+                    isLoading = false,
+                    isError = null,
+                    products = products
+                )
+            }
+
+            result.onFailure {
+                _productState.value = _productState.value.copy(
+                    isLoading = false,
+                    isError = it.message
+                )
+            }
+        }
+    }
 }
