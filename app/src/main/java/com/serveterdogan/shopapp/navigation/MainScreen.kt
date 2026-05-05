@@ -5,16 +5,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.serveterdogan.shopapp.ui.cart.CartScreen
 import com.serveterdogan.shopapp.ui.favorite.FavoriteScreen
-import com.serveterdogan.shopapp.ui.home.HomeScreen
+import com.serveterdogan.shopapp.ui.home.ProductScreen
+import com.serveterdogan.shopapp.ui.home.ProductViewModel
 import com.serveterdogan.shopapp.ui.profile.ProfileScreen
 
 @Composable
-fun MainScreen() {
+fun MainScreen(rootNavController: NavHostController) {
     val navController = rememberNavController()
 
     Scaffold(
@@ -28,7 +32,16 @@ fun MainScreen() {
                 startDestination = Screen.Home.route
             ) {
                 composable(Screen.Home.route) {
-                    HomeScreen()
+                    val productViewModel : ProductViewModel  = hiltViewModel()
+                    val product = productViewModel.productState.collectAsStateWithLifecycle()
+
+                    ProductScreen(
+                        state = product.value,
+                        onSearch = productViewModel::getSearchProduct,
+                        onProductClick = { productId ->
+                            rootNavController.navigate(Screen.ProductDetails.createRoute(productId))
+                        }
+                    )
                 }
                 composable(Screen.Favorite.route) {
                     FavoriteScreen()

@@ -17,6 +17,12 @@ sealed class Screen(val route : String , val title : String = "" , val icon : Im
     object Favorite : Screen("favorite_page","Favorite", Icons.Default.Favorite)
     object Cart : Screen("cart_page","Cart", Icons.Default.ShoppingBag)
     object Profile : Screen("profile_page","Profile", Icons.Default.Person)
+    
+    object ProductDetails : Screen("product_details/{productId}") {
+        fun createRoute(productId: Int) : String{
+            return "product_details/$productId"
+        }
+    }
 
     companion object {
         val bottomNavList = listOf(

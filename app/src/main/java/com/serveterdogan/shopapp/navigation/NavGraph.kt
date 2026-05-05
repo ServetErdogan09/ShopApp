@@ -13,7 +13,11 @@ import com.serveterdogan.shopapp.data.local.TokenManager
 import com.serveterdogan.shopapp.ui.login.LoginScreen
 import com.serveterdogan.shopapp.ui.login.LoginViewModel
 import com.serveterdogan.shopapp.ui.register.RegisterScreen
+import com.serveterdogan.shopapp.ui.home.ProductDetailsScreen
+import com.serveterdogan.shopapp.ui.home.ProductViewModel
 import com.serveterdogan.shopapp.ui.register.RegisterViewmodel
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 
 
 @Composable
@@ -87,7 +91,27 @@ fun NavGraph(
 
 
         composable(Screen.Main.route) {
-            MainScreen()
+            MainScreen(rootNavController = navController)
+        }
+
+        composable(
+            route = Screen.ProductDetails.route,
+            arguments = listOf(navArgument("productId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val productId = backStackEntry.arguments?.getInt("productId") ?: 0
+            val productViewModel: ProductViewModel = hiltViewModel()
+            val state = productViewModel.productState.collectAsStateWithLifecycle()
+
+            // Bu ekran açıldığında ürünü yükle
+            LaunchedEffect(productId) {
+                productViewModel.getProductById(productId)
+            }
+
+            ProductDetailsScreen(
+                product = state.value.selectedProduct,
+                onBackClick = { navController.popBackStack() },
+                onAddToCartClick = { /* Sepete ekleme mantığı */ }
+            )
         }
 
 
