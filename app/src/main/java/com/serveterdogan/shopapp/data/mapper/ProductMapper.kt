@@ -1,5 +1,6 @@
 package com.serveterdogan.shopapp.data.mapper
 
+import com.serveterdogan.shopapp.data.local.Entity.ProductEntity
 import com.serveterdogan.shopapp.data.remote.dto.ProductDto
 import com.serveterdogan.shopapp.data.remote.dto.ReviewDto
 import com.serveterdogan.shopapp.domain.model.Product
@@ -30,3 +31,32 @@ fun ReviewDto.toReview(): Review {
         reviewerEmail = reviewerEmail ?: ""
     )
 }
+
+
+fun ProductEntity.toProduct() : Product{
+  return  Product(
+        id = id,
+        title = title,
+        price = price,
+        thumbnail = thumbnail,
+        rating = rating,
+        category = category,
+        brand = brand,
+        images = emptyList(),
+        reviews = emptyList(),
+    )
+}
+
+
+fun Product.toProductEntity() : ProductEntity {
+    return ProductEntity(
+        id = id,
+        title = title,
+        price = price,
+        thumbnail = thumbnail,
+        rating = rating,
+        category = category ?: "",
+        brand = brand,
+    )
+}
+
