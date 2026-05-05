@@ -10,4 +10,6 @@ interface ProductRepository {
 
     suspend fun searchProducts(query : String) : Result<List<Product>>
 
+    suspend fun getProductsByCategory(category : String) : Result<List<Product>>
+
 }
