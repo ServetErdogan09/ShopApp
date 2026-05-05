@@ -3,7 +3,9 @@ package com.serveterdogan.shopapp.ui.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.serveterdogan.shopapp.domain.model.Product
 import com.serveterdogan.shopapp.domain.repository.ProductRepository
+import com.serveterdogan.shopapp.domain.repository.FavoriteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -15,37 +17,52 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val favoriteRepository: FavoriteRepository
 ) : ViewModel() {
 
-      private val _productState = MutableStateFlow(ProductState())
-        val  productState : StateFlow<ProductState> = _productState.asStateFlow()
+    private val _productState = MutableStateFlow(ProductState())
+    val productState: StateFlow<ProductState> = _productState.asStateFlow()
 
-
-    private var searchJob : Job? = null
+    private var favoriteIds = emptySet<Int>()
+    private var searchJob: Job? = null
 
     init {
+        observeFavorites()
         loadProducts()
-        Log.d("ProductViewModel", "ProductViewModel init")
+        Log.d("ProductViewModel","ProductViewmodel init")
     }
 
-
-    fun loadProducts(){
+    private fun observeFavorites() {
         viewModelScope.launch {
-            _productState.value = _productState.value.copy(isLoading = true , isError = null)
+            favoriteRepository.getFavoriteProducts().collect { favorites ->
+                favoriteIds = favorites.map { it.id }.toSet()
+                // Favoriler değiştiğinde mevcut listeyi güncelle
+                _productState.value = _productState.value.copy(
+                    products = _productState.value.products.map { product ->
+                        product.copy(isFavorite = favoriteIds.contains(product.id))
+
+                    }
+
+                )
+            }
+        }
+    }
+
+    fun loadProducts() {
+        viewModelScope.launch {
+            _productState.value = _productState.value.copy(isLoading = true, isError = null)
             val result = productRepository.getProducts()
 
-            result.onSuccess { products->
+            result.onSuccess { products ->
                 _productState.value = _productState.value.copy(
-                    products = products,
+                    products = products.map { it.copy(isFavorite = favoriteIds.contains(it.id)) },
                     isLoading = false,
                     isError = null
                 )
             }
 
             result.onFailure {
-                Log.d("ProductViewModel", "ProductViewModel onFailure : ${it.message}")
-
                 _productState.value = _productState.value.copy(
                     isLoading = false,
                     isError = it.message
@@ -54,23 +71,16 @@ class ProductViewModel @Inject constructor(
         }
     }
 
-
-
-
-    fun getSearchProduct(query : String) {
-        Log.d("ProductViewModel", "ProductViewModel getSearchProduct : $query")
-        searchJob?.cancel() // önceki aramayı iptal et
-
-      searchJob =   viewModelScope.launch {
-
-            delay(500L) // kullanıcı yazmasını 500 ms bekleyelim
-           _productState.value = _productState.value.copy(isLoading = true, isError = null)
+    fun getSearchProduct(query: String) {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(500L)
+            _productState.value = _productState.value.copy(isLoading = true, isError = null)
             val result = productRepository.searchProducts(query)
 
-
-            result.onSuccess { products->
+            result.onSuccess { products ->
                 _productState.value = _productState.value.copy(
-                    products = products,
+                    products = products.map { it.copy(isFavorite = favoriteIds.contains(it.id)) },
                     isLoading = false,
                     isError = null
                 )
@@ -85,8 +95,7 @@ class ProductViewModel @Inject constructor(
         }
     }
 
-
-    fun getProductCategory(category : String){
+    fun getProductCategory(category: String) {
         if (category == "Tümü") {
             _productState.value = _productState.value.copy(selectedCategory = "Tümü")
             loadProducts()
@@ -94,14 +103,18 @@ class ProductViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            _productState.value = _productState.value.copy(isLoading = true , isError = null, selectedCategory = category)
+            _productState.value = _productState.value.copy(
+                isLoading = true,
+                isError = null,
+                selectedCategory = category
+            )
             val result = productRepository.getProductsByCategory(category)
-            
-            result.onSuccess {  products ->
+
+            result.onSuccess { products ->
                 _productState.value = _productState.value.copy(
                     isLoading = false,
                     isError = null,
-                    products = products
+                    products = products.map { it.copy(isFavorite = favoriteIds.contains(it.id)) }
                 )
             }
 
@@ -110,6 +123,17 @@ class ProductViewModel @Inject constructor(
                     isLoading = false,
                     isError = it.message
                 )
+            }
+        }
+    }
+
+    // Favori ekleme/çıkarma işlemini Ana Sayfadan da yapabilmek için
+    fun toggleFavorite(product: Product) {
+        viewModelScope.launch {
+            if (product.isFavorite) {
+                favoriteRepository.deleteFavoriteProduct(product.id)
+            } else {
+                favoriteRepository.addFavoriteProduct(product)
             }
         }
     }
