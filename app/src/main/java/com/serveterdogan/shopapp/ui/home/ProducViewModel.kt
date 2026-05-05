@@ -56,30 +56,6 @@ class ProductViewModel @Inject constructor(
 
 
 
-    fun getProductById(productId : Int){
-        viewModelScope.launch {
-            _productState.value = _productState.value.copy(isLoading = true , isError = null)
-            val result = productRepository.getProductById(productId)
-
-            result.onSuccess { product->
-                _productState.value =_productState.value.copy(
-                    selectedProduct = product,
-                    isLoading = false,
-                    isError = null
-
-                )
-            }
-
-            result.onFailure {
-                _productState.value =_productState.value.copy(
-                    isLoading = false,
-                    isError = it.message
-
-                )
-            }
-        }
-    }
-
 
     fun getSearchProduct(query : String) {
         Log.d("ProductViewModel", "ProductViewModel getSearchProduct : $query")
