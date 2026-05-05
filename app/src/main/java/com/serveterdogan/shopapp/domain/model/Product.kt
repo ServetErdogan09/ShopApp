@@ -11,13 +11,14 @@ data class Review(
 data class Product(
     val id: Int,
     val title: String,
-    val description: String,
+    val description: String? = null,
     val price: Double,
-    val category: String,
+    val category: String? = null,
     val thumbnail: String,
     val brand: String,
     val rating: Double,
-    val discountPercentage: Double,
+    val discountPercentage: Double? = null,
     val images: List<String>,
-    val reviews: List<Review>
+    val reviews: List<Review>,
+    val isFavorite: Boolean = false
 )
