@@ -18,6 +18,7 @@ import com.serveterdogan.shopapp.ui.home.ProductViewModel
 import com.serveterdogan.shopapp.ui.register.RegisterViewmodel
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.serveterdogan.shopapp.ui.home.ProductDetailViewModel
 
 
 @Composable
@@ -99,7 +100,7 @@ fun NavGraph(
             arguments = listOf(navArgument("productId") { type = NavType.IntType })
         ) { backStackEntry ->
             val productId = backStackEntry.arguments?.getInt("productId") ?: 0
-            val productViewModel: ProductViewModel = hiltViewModel()
+            val productViewModel: ProductDetailViewModel = hiltViewModel()
             val state = productViewModel.productState.collectAsStateWithLifecycle()
 
             // Bu ekran açıldığında ürünü yükle
