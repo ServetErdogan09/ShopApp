@@ -38,4 +38,14 @@ class ProductRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun getProductsByCategory(category: String): Result<List<Product>> {
+        return try {
+            val response = apiService.getProductsByCategory(category)
+            val products = response.products.map { it.toProduct() }
+            Result.success(products)
+        }catch (e: Exception){
+            Result.failure(e)
+        }
+    }
 }
