@@ -1,6 +1,6 @@
 package com.serveterdogan.shopapp.data.repository
 
-import com.serveterdogan.shopapp.data.remote.AuthApiService
+import com.serveterdogan.shopapp.data.remote.service.AuthApiService
 import com.serveterdogan.shopapp.di.AppQualifiers
 import com.serveterdogan.shopapp.domain.model.LoginRequest
 import com.serveterdogan.shopapp.domain.repository.AuthRepository
