@@ -38,6 +38,7 @@ fun MainScreen(rootNavController: NavHostController) {
                     ProductScreen(
                         state = product.value,
                         onSearch = productViewModel::getSearchProduct,
+                        onCategoryClick = productViewModel::getProductCategory,
                         onProductClick = { productId ->
                             rootNavController.navigate(Screen.ProductDetails.createRoute(productId))
                         }
