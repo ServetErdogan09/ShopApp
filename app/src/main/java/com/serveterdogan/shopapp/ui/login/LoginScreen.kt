@@ -126,15 +126,6 @@ fun LoginScreen(
                         isPassword = true,
                         passwordVisible = passwordVisible,
                         onPasswordToggle = { passwordVisible = !passwordVisible },
-                        trailingContent = {
-                            Text(
-                                text = "UNUTTUN MU?",
-                                fontSize = 10.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = LuxeColors.Tertiary,
-                                modifier = Modifier.clickable { onForgotPasswordClick() }
-                            )
-                        }
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
