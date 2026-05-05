@@ -7,7 +7,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ProductApiService {
-
     @GET("products")
     suspend fun getProducts(): ProductResponseDto
 
@@ -19,5 +18,11 @@ interface ProductApiService {
     @GET("products/search")
     suspend fun getSearchProduct(
         @Query("q") query: String
+    ): ProductResponseDto
+
+
+    @GET("products/category/{category}")
+    suspend fun getProductsByCategory(
+        @Path("category") category: String
     ): ProductResponseDto
 }
