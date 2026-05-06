@@ -84,8 +84,8 @@ fun LoginScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(32.dp))
-                    .background(Color.White.copy(alpha = 0.4f))
-                    .border(1.dp, Color.White.copy(alpha = 0.3f), RoundedCornerShape(32.dp))
+                    .background(LuxeColors.SurfaceContainer.copy(alpha = 0.8f))
+                    .border(1.dp, Color.White.copy(alpha = 0.1f), RoundedCornerShape(32.dp))
                     .padding(24.dp)
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {
