@@ -14,4 +14,7 @@ interface FavoriteRepository {
     // ürün favori mi değil mi kontrol etmek için
     fun isProductFavorite(productId: Int): Flow<Boolean>
 
+    suspend fun refreshFavoriteProducts(): Result<Unit>
+
+
 }
