@@ -44,6 +44,8 @@ fun ProductEntity.toProduct() : Product{
         brand = brand,
         images = emptyList(),
         reviews = emptyList(),
+        isFavorite = true,
+        lastUpdated = lastUpdated
     )
 }
 
@@ -57,6 +59,7 @@ fun Product.toProductEntity() : ProductEntity {
         rating = rating,
         category = category ?: "",
         brand = brand,
+        lastUpdated = lastUpdated ?: System.currentTimeMillis()
     )
 }
 
