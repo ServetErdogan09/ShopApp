@@ -6,26 +6,33 @@
 
 ## ✨ Özellikler
 
-- 💎 **Premium UI/UX:** Glassmorphism etkileri, dinamik gradyanlar ve modern tipografi ile lüks bir kullanıcı deneyimi.
-- 🌓 **Dinamik Tema:** Göz yormayan Karanlık Mod ve şık Aydınlık Mod desteği.
-- 📦 **Yerel Veri Yönetimi:** Room veritabanı sayesinde sepetinizdeki ürünler ve favorileriniz internet olmasa bile cihazınızda güvenle saklanır.
-- 🛒 **Gelişmiş Sepet Yönetimi:** Ürün ekleme, miktar güncelleme ve gerçek zamanlı senkronizasyon.
-- ❤️ **Favoriler:** Beğendiğiniz ürünleri yerel veritabanında saklama ve hızlı erişim.
-- 🔍 **Akıllı Arama:** Kategorilere göre filtreleme ve anlık ürün arama.
+- **Premium UI/UX:** Glassmorphism etkileri, dinamik gradyanlar ve modern tipografi.
+- **Dinamik Tema:** Tam uyumlu Karanlık ve Aydınlık mod desteği.
+- **Yerel Veri Yönetimi:** Sepet ve Favoriler için Room ile çevrimdışı erişim.
+- **Gelişmiş Sepet Yönetimi:** Ürün ekleme, miktar güncelleme ve senkronizasyon.
+- **Akıllı Arama:** Kategorilere göre filtreleme ve anlık ürün arama.
 
 ---
 
-## 🛠️ Teknoloji Yığını
+## 🛠️ Teknoloji Yığını & Nedenleri
 
-Uygulama, en güncel Android kütüphaneleri ve Clean Architecture prensipleri ile geliştirilmiştir:
+Uygulama, ölçeklenebilir ve sürdürülebilir olması için şu teknolojilerle inşa edilmiştir:
 
-- **UI:** Jetpack Compose (Modern, deklaratif kullanıcı arayüzü)
-- **Mimari:** MVVM + Clean Architecture
-- **Dependency Injection:** Hilt (Dagger)
-- **Veritabanı:** Room (Yerel veri saklama)
-- **Networking:** Retrofit & OkHttp
-- **Asenkron İşlemler:** Kotlin Coroutines & Flow
-- **Görüntü Yükleme:** Coil
+- **Jetpack Compose:** Modern ve esnek bir UI katmanı oluşturmak için.
+- **Hilt (Dagger):** Bağımlılık yönetimi (Dependency Injection) ile kodun test edilebilirliğini artırmak için.
+- **Retrofit & OkHttp:** REST API iletişimini güvenli ve performanslı yönetmek için.
+- **Room Database:** Kullanıcı verilerini (Sepet/Favori) yerel cihazda kalıcı tutmak için.
+- **Kotlin Coroutines & Flow:** Asenkron veri akışlarını ve UI güncellemelerini yönetmek için.
+- **Coil:** Resimlerin bellek dostu bir şekilde yüklenmesi ve önbelleğe alınması için.
+
+---
+
+## 🌐 Veri Kaynağı
+
+Uygulama, farklı işlevler için iki farklı API servisi kullanmaktadır:
+
+- **Ürün Yönetimi:** [DummyJSON](https://dummyjson.com) (`/products`, `/products/search`)
+- **Kimlik Doğrulama:** [ReqRes](https://reqres.in) (`/api/login`, `/api/register`)
 
 ---
 
