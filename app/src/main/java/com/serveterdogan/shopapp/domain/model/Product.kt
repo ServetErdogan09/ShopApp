@@ -20,5 +20,6 @@ data class Product(
     val discountPercentage: Double? = null,
     val images: List<String>,
     val reviews: List<Review>,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+    val  lastUpdated: Long? = null
 )
