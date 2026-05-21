@@ -16,7 +16,7 @@ class LoginUseCase @Inject constructor(
           return Result.failure(Exception("Lütfen tüm alanları doldurun"))
       }
 
-      if(request.password.length <= 6){
+      if(request.password.length < 6){
           return Result.failure(Exception("Şifre en az 6 karakter olmalıdır"))
       }
 
