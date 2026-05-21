@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serveterdogan.shopapp.domain.model.Product
-import com.serveterdogan.shopapp.domain.repository.ProductRepository
 import com.serveterdogan.shopapp.domain.repository.FavoriteRepository
+import com.serveterdogan.shopapp.domain.usecase.ProductUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
-    private val productRepository: ProductRepository,
+    private val getProductsUseCase: ProductUseCase,
     private val favoriteRepository: FavoriteRepository
 ) : ViewModel() {
 
@@ -52,7 +52,7 @@ class ProductViewModel @Inject constructor(
     fun loadProducts() {
         viewModelScope.launch {
             _productState.value = _productState.value.copy(isLoading = true, isError = null)
-            val result = productRepository.getProducts()
+            val result = getProductsUseCase.getProducts()
 
             result.onSuccess { products ->
                 _productState.value = _productState.value.copy(
@@ -76,7 +76,7 @@ class ProductViewModel @Inject constructor(
         searchJob = viewModelScope.launch {
             delay(500L)
             _productState.value = _productState.value.copy(isLoading = true, isError = null)
-            val result = productRepository.searchProducts(query)
+            val result = getProductsUseCase.searchProducts(query)
 
             result.onSuccess { products ->
                 _productState.value = _productState.value.copy(
@@ -108,7 +108,7 @@ class ProductViewModel @Inject constructor(
                 isError = null,
                 selectedCategory = category
             )
-            val result = productRepository.getProductsByCategory(category)
+            val result = getProductsUseCase.getProductsByCategory(category)
 
             result.onSuccess { products ->
                 _productState.value = _productState.value.copy(

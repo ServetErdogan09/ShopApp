@@ -2,7 +2,7 @@ package com.serveterdogan.shopapp.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.serveterdogan.shopapp.domain.repository.ProductRepository
+import com.serveterdogan.shopapp.domain.usecase.ProductUseCase
 import com.serveterdogan.shopapp.domain.repository.FavoriteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductDetailViewModel @Inject constructor(
-    private val repository: ProductRepository,
+    private val productUseCase: ProductUseCase,
     private val favoriteRepository: FavoriteRepository
 ) : ViewModel() {
 
@@ -25,7 +25,7 @@ class ProductDetailViewModel @Inject constructor(
             _productState.value = _productState.value.copy(isLoading = true, isError = null)
             
 
-            val result = repository.getProductById(productId)
+            val result = productUseCase.getProductById(productId)
 
             result.onSuccess { product ->
                 _productState.value = _productState.value.copy(
