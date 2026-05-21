@@ -11,11 +11,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import com.serveterdogan.shopapp.data.local.TokenManager
+import com.serveterdogan.shopapp.domain.usecase.LoginUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val repository: AuthRepository,
+    private val loginUseCase: LoginUseCase,
     private val tokenManager: TokenManager
 ) : ViewModel() {
 
@@ -39,7 +40,7 @@ class LoginViewModel @Inject constructor(
             _state.value = _state.value.copy(isLoading = true , error = null)
 
 
-            val result = repository.login(
+            val result = loginUseCase.invoke(
                 LoginRequest(
                     email = _state.value.email,
                     password =_state.value.password
