@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.serveterdogan.shopapp.ui.theme.LuxeColors
 import com.serveterdogan.shopapp.ui.theme.ThemeViewModel
 import androidx.activity.ComponentActivity
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,7 +33,7 @@ fun ProfileScreen(
     // ÖNEMLİ: ViewModel'ı Activity seviyesinde alıyoruz ki MainActivity ile aynı instance olsun
     val context = LocalContext.current as ComponentActivity
     val themeViewModel: ThemeViewModel = hiltViewModel(context)
-    val isDarkTheme by themeViewModel.isDarkTheme.collectAsState()
+    val isDarkTheme by themeViewModel.isDarkTheme.collectAsStateWithLifecycle()
 
     val backgroundGradient = Brush.radialGradient(
         colors = listOf(LuxeColors.GradientStart, LuxeColors.GradientEnd),
@@ -130,7 +131,7 @@ fun ProfileScreen(
                 trailing = {
                     Switch(
                         checked = isDarkTheme,
-                        onCheckedChange = { themeViewModel.toggleTheme() },
+                        onCheckedChange = { themeViewModel.toggleTheme(!isDarkTheme) },
                         colors = SwitchDefaults.colors(
                             checkedThumbColor = LuxeColors.Primary,
                             checkedTrackColor = LuxeColors.Primary.copy(alpha = 0.5f)
