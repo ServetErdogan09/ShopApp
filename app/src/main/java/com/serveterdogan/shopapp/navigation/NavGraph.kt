@@ -60,8 +60,7 @@ fun NavGraph(
                     onLoginClick = viewModel::userLogin,
                     onRegisterClick = {
                         navController.navigate(Screen.Register.route)
-                    },
-                    onForgotPasswordClick = {}
+                    }
                 )
             }
 

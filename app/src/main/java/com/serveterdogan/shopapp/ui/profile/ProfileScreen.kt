@@ -30,7 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 fun ProfileScreen(
     onLogout: () -> Unit
 ) {
-    // ÖNEMLİ: ViewModel'ı Activity seviyesinde alıyoruz ki MainActivity ile aynı instance olsun
+    //  ViewModel'ı Activity seviyesinde alıyoruz ki MainActivity ile aynı instance olsun
     val context = LocalContext.current as ComponentActivity
     val themeViewModel: ThemeViewModel = hiltViewModel(context)
     val isDarkTheme by themeViewModel.isDarkTheme.collectAsStateWithLifecycle()

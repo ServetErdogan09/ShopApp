@@ -40,7 +40,6 @@ fun LoginScreen(
     onPasswordChange: (String) -> Unit,
     onLoginClick: () -> Unit,
     onRegisterClick: () -> Unit,
-    onForgotPasswordClick: () -> Unit,
 ) {
     val gradientBrush = Brush.radialGradient(
         colors = listOf(LuxeColors.GradientStart, LuxeColors.GradientEnd, LuxeColors.Background),
