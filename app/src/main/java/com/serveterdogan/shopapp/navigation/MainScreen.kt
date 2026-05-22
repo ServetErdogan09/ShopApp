@@ -12,17 +12,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.serveterdogan.shopapp.data.local.TokenManager
 import com.serveterdogan.shopapp.ui.cart.CartScreen
 import com.serveterdogan.shopapp.ui.favorite.FavoriteScreen
 import com.serveterdogan.shopapp.ui.favorite.FavoriteViewModel
 import com.serveterdogan.shopapp.ui.home.ProductScreen
 import com.serveterdogan.shopapp.ui.home.ProductViewModel
 import com.serveterdogan.shopapp.ui.profile.ProfileScreen
+import com.serveterdogan.shopapp.ui.profile.ProfileViewModel
 import com.serveterdogan.shopapp.ui.register.RegisterViewmodel
 
 @Composable
-fun MainScreen(rootNavController: NavHostController , tokenManager: TokenManager) {
+fun MainScreen(rootNavController: NavHostController) {
     val navController = rememberNavController()
 
     Scaffold(
@@ -77,11 +77,10 @@ fun MainScreen(rootNavController: NavHostController , tokenManager: TokenManager
                     )
                 }
                 composable(Screen.Profile.route) {
-                    val viewmodel : RegisterViewmodel = hiltViewModel()
+                    val viewmodel : ProfileViewModel = hiltViewModel()
                     ProfileScreen(
                         onLogout = {
-                            //rootNavController.navigate(Screen.Login.route)
-                            viewmodel.clearToken()
+                            viewmodel.logout() // çıkış yap
                         }
                     )
                 }

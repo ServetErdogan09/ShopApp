@@ -1,6 +1,7 @@
 package com.serveterdogan.shopapp.ui.profile
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,7 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +24,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.serveterdogan.shopapp.ui.theme.LuxeColors
 import com.serveterdogan.shopapp.ui.theme.ThemeViewModel
 import androidx.activity.ComponentActivity
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,6 +37,8 @@ fun ProfileScreen(
     val context = LocalContext.current as ComponentActivity
     val themeViewModel: ThemeViewModel = hiltViewModel(context)
     val isDarkTheme by themeViewModel.isDarkTheme.collectAsStateWithLifecycle()
+
+    var showLogoutDialog by remember { mutableStateOf(false) }
 
     val backgroundGradient = Brush.radialGradient(
         colors = listOf(LuxeColors.GradientStart, LuxeColors.GradientEnd),
@@ -125,26 +130,27 @@ fun ProfileScreen(
             )
             
             // SADECE KARANLIK MOD
+            val darkThemeEnabled = isDarkTheme ?: isSystemInDarkTheme()
             SettingsRow(
-                icon = if (isDarkTheme) Icons.Default.DarkMode else Icons.Default.LightMode,
+                icon = if (darkThemeEnabled) Icons.Default.DarkMode else Icons.Default.LightMode,
                 title = "Karanlık Mod",
                 trailing = {
                     Switch(
-                        checked = isDarkTheme,
-                        onCheckedChange = { themeViewModel.toggleTheme(!isDarkTheme) },
+                        checked = darkThemeEnabled,
+                        onCheckedChange = { themeViewModel.toggleTheme(!darkThemeEnabled) },
                         colors = SwitchDefaults.colors(
                             checkedThumbColor = LuxeColors.Primary,
                             checkedTrackColor = LuxeColors.Primary.copy(alpha = 0.5f)
-                        )
-                    )
-                }
-            )
+                         )
+                     )
+                 }
+             )
             
             Spacer(modifier = Modifier.weight(1f))
             
             // Logout Button
             Button(
-                onClick = { onLogout() },
+                onClick = { showLogoutDialog = true },
                 modifier = Modifier.fillMaxWidth().height(56.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = LuxeColors.Error.copy(alpha = 0.1f)),
@@ -158,7 +164,46 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.height(24.dp))
         }
     }
+
+    if (showLogoutDialog) {
+        AlertDialog(
+            onDismissRequest = { showLogoutDialog = false },
+            title = {
+                Text(
+                    text = "Çıkış Yap",
+                    fontWeight = FontWeight.Bold,
+                    color = LuxeColors.OnSurface
+                )
+            },
+            text = {
+                Text(
+                    text = "Hesabınızdan çıkış yapmak istediğinize emin misiniz?",
+                    color = LuxeColors.OnSurfaceVariant
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showLogoutDialog = false
+                        onLogout()
+                    }
+                ) {
+                    Text("Evet, Çıkış Yap", color = LuxeColors.Error, fontWeight = FontWeight.Bold)
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showLogoutDialog = false }
+                ) {
+                    Text("İptal", color = LuxeColors.Outline)
+                }
+            },
+            containerColor = LuxeColors.SurfaceContainerHigh,
+            shape = RoundedCornerShape(28.dp)
+        )
+    }
 }
+
 
 @Composable
 fun SettingsRow(
