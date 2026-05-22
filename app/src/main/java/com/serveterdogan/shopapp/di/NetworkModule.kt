@@ -31,7 +31,11 @@ object NetworkModule {
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            level = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor.Level.BODY
+            } else {
+                HttpLoggingInterceptor.Level.NONE
+            }
         }
     }
 
@@ -43,9 +47,9 @@ object NetworkModule {
             .addInterceptor { chain ->
                 val originalRequest = chain.request()
                 val requestBuilder = originalRequest.newBuilder()
-                    if(originalRequest.url.host.contains("reqres.in")){
-                        requestBuilder.addHeader("x-api-key", BuildConfig.REQRES_API_KEY)
-                    }
+                if (BuildConfig.DEBUG && originalRequest.url.host.contains("reqres.in")) {
+                    requestBuilder.addHeader("x-api-key", BuildConfig.REQRES_API_KEY)
+                }
                 chain.proceed(requestBuilder.build())
             }
             .build()
