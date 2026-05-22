@@ -2,8 +2,8 @@ package com.serveterdogan.shopapp.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.serveterdogan.shopapp.domain.usecase.ProductUseCase
 import com.serveterdogan.shopapp.domain.repository.FavoriteRepository
+import com.serveterdogan.shopapp.domain.usecase.ProductUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

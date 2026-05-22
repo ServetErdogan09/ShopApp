@@ -1,7 +1,7 @@
 package com.serveterdogan.shopapp.domain.repository
 
-import com.serveterdogan.shopapp.domain.model.Product
 import com.serveterdogan.shopapp.data.local.Entity.CartEntity
+import com.serveterdogan.shopapp.domain.model.Product
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {

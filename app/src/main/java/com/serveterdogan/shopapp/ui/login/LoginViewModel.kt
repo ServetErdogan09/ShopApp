@@ -3,15 +3,14 @@ package com.serveterdogan.shopapp.ui.login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.serveterdogan.shopapp.data.local.TokenManager
 import com.serveterdogan.shopapp.domain.model.LoginRequest
-import com.serveterdogan.shopapp.domain.repository.AuthRepository
+import com.serveterdogan.shopapp.domain.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import com.serveterdogan.shopapp.data.local.TokenManager
-import com.serveterdogan.shopapp.domain.usecase.LoginUseCase
 import javax.inject.Inject
 
 @HiltViewModel

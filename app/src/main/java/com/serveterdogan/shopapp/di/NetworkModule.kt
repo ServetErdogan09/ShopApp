@@ -1,7 +1,7 @@
 package com.serveterdogan.shopapp.di
 
-import com.serveterdogan.shopapp.data.remote.service.AuthApiService
 import com.serveterdogan.shopapp.BuildConfig
+import com.serveterdogan.shopapp.data.remote.service.AuthApiService
 import com.serveterdogan.shopapp.data.remote.service.ProductApiService
 import dagger.Module
 import dagger.Provides

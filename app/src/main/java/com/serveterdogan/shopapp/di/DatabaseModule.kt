@@ -7,8 +7,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.serveterdogan.shopapp.data.local.Entity.AppDatabase
-import com.serveterdogan.shopapp.data.local.Entity.ProductDao
 import com.serveterdogan.shopapp.data.local.Entity.CartDao
+import com.serveterdogan.shopapp.data.local.Entity.ProductDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -6,7 +6,6 @@ import com.serveterdogan.shopapp.data.local.Entity.CartEntity
 import com.serveterdogan.shopapp.domain.model.Product
 import com.serveterdogan.shopapp.domain.repository.CartRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class CartRepositoryImpl @Inject constructor(

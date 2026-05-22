@@ -1,6 +1,5 @@
 package com.serveterdogan.shopapp.data.local.Entity
 
-import android.media.Rating
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 

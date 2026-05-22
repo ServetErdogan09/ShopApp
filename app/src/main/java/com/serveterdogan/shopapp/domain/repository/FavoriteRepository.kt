@@ -1,6 +1,5 @@
 package com.serveterdogan.shopapp.domain.repository
 
-import com.serveterdogan.shopapp.data.local.Entity.ProductEntity
 import com.serveterdogan.shopapp.domain.model.Product
 import kotlinx.coroutines.flow.Flow
 

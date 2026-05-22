@@ -1,6 +1,5 @@
 package com.serveterdogan.shopapp.domain.repository
 
-import com.serveterdogan.shopapp.data.remote.dto.LoginResponse
 import com.serveterdogan.shopapp.domain.model.LoginRequest
 
 interface AuthRepository {

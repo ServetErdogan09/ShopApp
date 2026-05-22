@@ -1,7 +1,6 @@
 package com.serveterdogan.shopapp.data.repository
 
 import com.serveterdogan.shopapp.data.local.Entity.ProductDao
-import com.serveterdogan.shopapp.data.local.Entity.ProductEntity
 import com.serveterdogan.shopapp.data.mapper.toProduct
 import com.serveterdogan.shopapp.data.mapper.toProductEntity
 import com.serveterdogan.shopapp.data.remote.service.ProductApiService

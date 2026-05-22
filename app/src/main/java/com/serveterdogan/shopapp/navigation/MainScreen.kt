@@ -4,14 +4,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.serveterdogan.shopapp.ui.cart.CartScreen
 import com.serveterdogan.shopapp.ui.favorite.FavoriteScreen
 import com.serveterdogan.shopapp.ui.favorite.FavoriteViewModel
@@ -19,7 +18,6 @@ import com.serveterdogan.shopapp.ui.home.ProductScreen
 import com.serveterdogan.shopapp.ui.home.ProductViewModel
 import com.serveterdogan.shopapp.ui.profile.ProfileScreen
 import com.serveterdogan.shopapp.ui.profile.ProfileViewModel
-import com.serveterdogan.shopapp.ui.register.RegisterViewmodel
 
 @Composable
 fun MainScreen(rootNavController: NavHostController) {

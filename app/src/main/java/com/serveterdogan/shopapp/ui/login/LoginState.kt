@@ -1,7 +1,5 @@
 package com.serveterdogan.shopapp.ui.login
 
-import kotlinx.coroutines.flow.StateFlow
-
 data class LoginState(
     val email: String = "",
     val password: String = "",
