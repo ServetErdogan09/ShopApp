@@ -91,11 +91,4 @@ class RegisterViewmodel @Inject constructor(
 
     }
 
-
-    fun clearToken(){
-        viewModelScope.launch {
-            tokenManager.clearToken()
-        }
-    }
-
 }
